@@ -1,0 +1,11 @@
+5
+(Peter je rodic Jano)
+(Peter je rodic Vlado)
+(manzelia Peter Eva)
+(Vlado je rodic Maria)
+(Vlado je rodic Viera)
+1
+
+DruhyRodic1:
+(?X je rodic ?Y)(manzelia ?X ?Z)
+(pridaj ?Z je rodic ?Y)
