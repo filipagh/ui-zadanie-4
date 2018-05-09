@@ -7,7 +7,8 @@ public class Pravidlo {
 	private String nazov;
 	private List<Veta> podmienky;
 	private List<Veta> nasledky;
-
+	private String doplneny_text;
+	private Boolean test[];
 	private HashMap hm = new HashMap();
 
 
@@ -26,6 +27,9 @@ public class Pravidlo {
 		nasledky=p.nasledky;	
 		hm.putAll(p.hm);
 	}
+
+
+
 
 
 	public void zistiparam()
@@ -52,9 +56,9 @@ public class Pravidlo {
 	public boolean je_rovnake(Pravidlo p,int podmienka)
 	{
 		Pravidlo p_nove=null;
-	if (p.nazov.equals("Surodenci:"))
-	{ System.out.println("aa");}
-	
+		if (p.nazov.equals("Surodenci:"))
+		{ System.out.println("aa");}
+
 		for (int i=0;i<Main.fakty.size();i++)  //kazdy fakt
 		{
 			boolean test = true;
@@ -65,10 +69,10 @@ public class Pravidlo {
 				p_nove = new Pravidlo(p);
 				if (temp.getZ_slov().get(0).equals("<>"))
 				{
-					
-					
-					
-					
+
+
+
+
 					for (int param=0;param< temp.getParam().size()-1;param++) /// kazdy parameter z vety
 					{
 						char pis_par = temp.getZ_slov().get(temp.getParam().get(param)).charAt(1);
@@ -81,20 +85,20 @@ public class Pravidlo {
 					}
 					if (test == true )
 					{
-				if (podmienka+1 == p.getPodmienky().size())
-				{
-					Main.moznosti.add(p_nove);
-					return true;
-				}
-				else
-				{
-					je_rovnake(p_nove,podmienka+1);
-				}
+						if (podmienka+1 == p.getPodmienky().size())
+						{
+							Main.moznosti.add(p_nove);
+							return true;
+						}
+						else
+						{
+							je_rovnake(p_nove,podmienka+1);
+						}
 					}
 				}
 				else if (Main.kontrola(Main.fakty.get(i),temp))    // kontrola ci ozaj su rovnake 
 				{	
-					
+
 
 
 					for (int param=0;param< temp.getParam().size();param++) /// kazdy parameter z vety
@@ -119,7 +123,7 @@ public class Pravidlo {
 					}
 
 					if (test == true )
-							{
+					{
 						if (podmienka+1 == p.getPodmienky().size())
 						{
 							Main.moznosti.add(p_nove);
@@ -129,7 +133,7 @@ public class Pravidlo {
 						{
 							je_rovnake(p_nove,podmienka+1);
 						}
-							}
+					}
 				}
 			}
 
@@ -140,6 +144,15 @@ public class Pravidlo {
 
 	}
 
+	
+
+	public String getDoplneny_text() {
+		return doplneny_text;
+	}
+
+	public void setDoplneny_text(String doplneny_text) {
+		this.doplneny_text = doplneny_text;
+	}
 
 	public String getNazov() {
 		return nazov;
@@ -171,6 +184,14 @@ public class Pravidlo {
 
 	public void setHm(HashMap hm) {
 		this.hm = hm;
+	}
+
+	public Boolean[] getTest() {
+		return test;
+	}
+
+	public void setTest(Boolean[] test) {
+		this.test = test;
 	}
 
 
