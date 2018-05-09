@@ -1,11 +1,34 @@
-5
+24
 (Peter je rodic Jano)
 (Peter je rodic Vlado)
 (manzelia Peter Eva)
 (Vlado je rodic Maria)
 (Vlado je rodic Viera)
-1
+(muz Peter)
+(muz Jano)
+(muz Vlado)
+(zena Maria)
+(zena Viera)
+(zena Eva)
+(Eva je rodic Jano)
+(Eva je rodic Vlado)
+(Peter je otec Jano)
+(Peter je otec Vlado)
+(Vlado je otec Maria)
+(Vlado je otec Viera)
+(Eva je matka Jano)
+(Eva je matka Vlado)
+(Jano a Vlado su surodenci)
+(Vlado a Jano su surodenci)
+(Maria a Viera su surodenci)
+(Viera a Maria su surodenci)
+(Jano je brat Vlado)
+2
 
-DruhyRodic1:
-(?X je rodic ?Y)(manzelia ?X ?Z)
-(pridaj ?Z je rodic ?Y)
+Brat:
+(?Y a ?Z su surodenci)(muz ?Y)
+(pridaj ?Y je brat ?Z)
+
+Stryko:
+(?Y je brat ?Z)(?Z je rodic ?X)
+(pridaj ?Y je stryko ?X)(sprava ?X ma stryka)

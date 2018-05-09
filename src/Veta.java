@@ -6,7 +6,17 @@ public class Veta {
 	private List<String> z_slov;
 	
 	private List<Integer> param;
+	private int typ;
 	
+	
+	public int getTyp() {
+		return typ;
+	}
+
+	public void setTyp(int typ) {
+		this.typ = typ;
+	}
+
 	public Veta(List<String> imp,List<Integer> param_imp )
 	{
 		param=param_imp;

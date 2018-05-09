@@ -1,12 +1,14 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Pravidlo {
 
 	private String nazov;
 	private List<Veta> podmienky;
-	private List<Veta> nasledky;
+	private List<Veta> nasledky= new ArrayList<Veta>() ;
 	private String doplneny_text;
 	private Boolean test[];
 	private HashMap hm = new HashMap();
@@ -56,8 +58,7 @@ public class Pravidlo {
 	public boolean je_rovnake(Pravidlo p,int podmienka)
 	{
 		Pravidlo p_nove=null;
-		if (p.nazov.equals("Surodenci:"))
-		{ System.out.println("aa");}
+	
 
 		for (int i=0;i<Main.fakty.size();i++)  //kazdy fakt
 		{
@@ -88,7 +89,7 @@ public class Pravidlo {
 						if (podmienka+1 == p.getPodmienky().size())
 						{
 							Main.moznosti.add(p_nove);
-							return true;
+							
 						}
 						else
 						{
@@ -127,7 +128,7 @@ public class Pravidlo {
 						if (podmienka+1 == p.getPodmienky().size())
 						{
 							Main.moznosti.add(p_nove);
-							return true;
+							
 						}
 						else
 						{

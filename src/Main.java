@@ -15,9 +15,12 @@ public class Main {
 	static public List<Pravidlo> pravidla=new ArrayList() ; 
 	static public List<Pravidlo> moznosti=new ArrayList() ; 
 	static public List<Pravidlo> moznostireal=new ArrayList() ; 
+	static public List<String> vypis=new ArrayList() ; 
+	static public Boolean testtt=false;
 	static private File f;
 	static private Scanner scanIn;
 	public static void main (String[] args){
+		
 		f = new File("fp.txt");
 
 		try {
@@ -31,9 +34,16 @@ public class Main {
 		spracuj_fakty(poc_faktov);
 		int poc_pravidel= scanIn.nextInt();
 		spracuj_pravidla(poc_pravidel);
+		int pocitadlo= 1;
+		for (int i=0;i<18;i++)
+		{
+			System.out.println(pocitadlo+".----------------------------------------------------");
+			pocitadlo++;
+			if (pocitadlo == 17)
+			{testtt=true;}
+			testuj();///////////////////////////////////////////////////////
 
-
-		testuj();///////////////////////////////////////////////////////
+		}
 		System.out.println("done");
 
 
@@ -42,22 +52,33 @@ public class Main {
 	}
 	public static void testuj() 
 	{
+		vypis_fakty();
 		for (Pravidlo n :pravidla)  // pre vsetky pravidla 
 		{
 			n.je_rovnake(n, 0)	;
 		}
-
+		int poc=0;
 		for (Pravidlo n :moznosti)  // pre vsetky pravidla 
 		{
+			
+			if (n.getNasledky().size()>1)
+			{System.out.println("aaa");}
 			Boolean test[] = new Boolean[n.getNasledky().size()]; 
-			for (int o=0;o<n.getNasledky().size();o++)
+			for (int o=0;o<n.getNasledky().size();o++)									// vsetky nasledky
 			{
+				
+				if (testtt&& poc==168)
+				{System.out.println("");}
+				
+				poc++;
 				test[o]= true;
-				switch  (n.getNasledky().get(o).getZ_slov().get(0))
+
+				if (n.getNasledky().get(o).getZ_slov().get(0).equals("pridaj"))
 				{
-				case ("pridaj"): 
-				{
-					String text=null;
+					n.getNasledky().get(o).setTyp(1);
+					boolean tempdlzka=true;
+
+					String text="";
 					for (int i=1;i<n.getNasledky().get(o).getZ_slov().size();i++)
 					{
 						String slovo =n.getNasledky().get(o).getZ_slov().get(i);
@@ -65,24 +86,56 @@ public class Main {
 						{
 							slovo = n.getHm().get(slovo.charAt(1)).toString();
 						}
-
-						text = (text+" "+slovo); 
+						if (tempdlzka)
+						{
+							text=slovo;
+							tempdlzka=false;
+						}
+						else
+						{
+							text = (text+" "+slovo); 
+						}
 					}
 
+					
 					for (int i=0;i<fakty.size();i++)  //kazdy fakt
 					{
-						if (Objects.equals(text, fakty.get(i)))
+						boolean tempdlzkafakt=true;
+						String textfakt="";
+						for (int p=0;p<fakty.get(i).getZ_slov().size();p++)
 						{
+							if (tempdlzkafakt)
+							{
+								textfakt=fakty.get(i).getZ_slov().get(p);
+								tempdlzkafakt=false;
+							}
+							else
+							{
+								textfakt = (textfakt+" "+fakty.get(i).getZ_slov().get(p)); 
+							}
+						}
+					//	System.out.println(text+" aaaaa "+textfakt);
+						if (Objects.equals(text, textfakt))
+						{
+							
 							test[o] = false;
 						}
 					}
+					
 				}
-				default:
+				else if (n.getNasledky().get(o).getZ_slov().get(0).equals("sprava"))
 				{
-
+					n.getNasledky().get(o).setTyp(0);
+					test[o]=false;
+				}
+				
+				else
+				{
+					n.getNasledky().get(o).setTyp(0);	
+					
 				}
 
-				}
+
 			}
 			boolean temp = false; 
 			for (int i=0;i<test.length;i++)
@@ -99,24 +152,168 @@ public class Main {
 			}
 		}
 
+
+		System.out.println("\nFAKTY pred zmenov");
+		vypis_fakty();
+		vypis_pravidla();
+		vykonaj();
+		vypis_vypisu();
+		System.out.println("\nFAKTY po zmene");
+		vypis_fakty();
 		
-		
+		moznosti.clear();
+		moznostireal.clear();
 	}
 
-public void vykonaj()
-{ 
-	for (Pravidlo n: moznostireal)
+	public static void vypis_fakty()
 	{
-		for (int i=1; i< n.getNasledky().size();i++)
+
+		for (int i=0;i<fakty.size();i++)
 		{
-			if(n.getNasledky().get(i).getZ_slov().get(0).equals("pridaj"))
+			String text="";
+			for (int p=0;p<fakty.get(i).getZ_slov().size();p++)
 			{
-				
+				String slovo =fakty.get(i).getZ_slov().get(p);
+				text = (text+" "+slovo); 
+			}
+			System.out.println(text);
+		}
+	}
+	public static void vypis_pravidla()
+	{
+		System.out.println("\n");
+		for (Pravidlo n: moznostireal)
+		{
+
+			String text=n.getNazov();
+			for (int p=0;p<n.getNasledky().size();p++)
+			{
+				text = (text+", "); 
+				for (int l=0;l<n.getNasledky().get(p).getZ_slov().size();l++)
+				{
+					String slovo =n.getNasledky().get(p).getZ_slov().get(l);
+					if (slovo.charAt(0)=='?')
+					{
+						slovo = n.getHm().get(slovo.charAt(1)).toString();
+					}
+
+					text = (text+" "+slovo); 
+				}
+			}
+			System.out.println(text);
+		}
+	}
+
+	public static void vypis_vypisu()
+	{
+		System.out.println("vypis:");
+		for (String n : vypis)
+		{
+			System.out.println(n);
+		}
+	}
+
+	public static void vykonaj()
+	{ 
+		for (Pravidlo n: moznostireal)  // vsetky pravidla
+		{
+			for (int i=0; i< n.getNasledky().size();i++)  // vsetky nasledky
+			{
+				if(n.getNasledky().get(i).getZ_slov().get(0).equals("pridaj") && n.getNasledky().get(i).getTyp()==1)
+				{
+					aplikuj_pravidlo(n);
+					return;
+				}
 			}
 		}
 	}
-}
 
+	public static void  aplikuj_pravidlo(Pravidlo p)
+	{
+		System.out.println("\n\npouzije sa: "+p.getNazov());
+
+		for (int i=0; i< p.getNasledky().size();i++) 
+		{
+			if (p.getTest()[i]==true)
+			{
+				if (p.getNasledky().get(i).getZ_slov().get(0).equals("pridaj")) 
+				{
+					boolean tempdlzka=true;
+					String text="";
+
+					for (int l=1;l< p.getNasledky().get(i).getZ_slov().size();l++)// prejdi vsetky slova
+					{
+						String slovo =p.getNasledky().get(i).getZ_slov().get(l);
+						if (slovo.charAt(0)=='?')
+						{
+							slovo = p.getHm().get(slovo.charAt(1)).toString();
+
+						}
+
+						if (tempdlzka)
+						{
+							text=slovo;
+							tempdlzka=false;
+						}
+						else
+						{
+							text= text+" "+slovo;
+						}
+
+					}
+					//	p.getNasledky().get(i).getZ_slov().remove(0);
+
+
+
+					System.out.println(text);
+					text=text+")";
+					Veta temp= Main.parcuj(text).get(0);
+					fakty.add(temp);
+				}
+				else if (p.getNasledky().get(i).getZ_slov().get(0).equals("sprava")) 
+				{
+					boolean tempdlzka=true;
+					String text="";
+
+					for (int l=1;l< p.getNasledky().get(i).getZ_slov().size();l++)// prejdi vsetky slova
+					{
+						String slovo =p.getNasledky().get(i).getZ_slov().get(l);
+						if (slovo.charAt(0)=='?')
+						{
+							slovo = p.getHm().get(slovo.charAt(1)).toString();
+
+						}
+
+						if (tempdlzka)
+						{
+							text=slovo;
+							tempdlzka=false;
+						}
+						else
+						{
+							text= text+" "+slovo;
+						}
+
+					}
+					//	p.getNasledky().get(i).getZ_slov().remove(0);
+
+
+
+					vypis.add(text);
+				
+
+
+
+
+				}
+			}
+		}
+		System.out.println("\n");
+	}
+	public void vykonaj_nasledok()
+	{
+
+	}
 
 	public static boolean je_rovnake(Pravidlo p,int podmienka)
 	{
@@ -226,7 +423,7 @@ public void vykonaj()
 		String temp= "";
 
 		List<Veta> result=new ArrayList();
-		List<String> slova= null;
+		List<String> slova= new ArrayList();
 		List<Integer> param= null;
 
 
