@@ -21,7 +21,7 @@ public class Main {
 	static private Scanner scanIn;
 	public static void main (String[] args){
 		
-		f = new File("fp.txt");
+		f = new File("fp.txt");   //subor
 
 		try {
 			scanIn = new Scanner(f);
@@ -35,12 +35,11 @@ public class Main {
 		int poc_pravidel= scanIn.nextInt();
 		spracuj_pravidla(poc_pravidel);
 		int pocitadlo= 1;
-		for (int i=0;i<18;i++)
+		for (int i=0;i<18;i++)					// chod programu preba prerobit na do while (su pravidla)
 		{
 			System.out.println(pocitadlo+".----------------------------------------------------");
 			pocitadlo++;
-			if (pocitadlo == 17)
-			{testtt=true;}
+		
 			testuj();///////////////////////////////////////////////////////
 
 		}
@@ -52,33 +51,31 @@ public class Main {
 	}
 	public static void testuj() 
 	{
-		vypis_fakty();
-		for (Pravidlo n :pravidla)  // pre vsetky pravidla 
+	//	vypis_fakty();
+		for (Pravidlo n :pravidla)  // pre vsetky pravidla vyskusa naparsovat 
 		{
 			n.je_rovnake(n, 0)	;
 		}
 		int poc=0;
-		for (Pravidlo n :moznosti)  // pre vsetky pravidla 
+		for (Pravidlo n :moznosti)  // pre vsetky najdene moznosti zistuje ci mozu daco zmenit ak ano da ich do moznostireal
 		{
 			
-			if (n.getNasledky().size()>1)
-			{System.out.println("aaa");}
+			
 			Boolean test[] = new Boolean[n.getNasledky().size()]; 
 			for (int o=0;o<n.getNasledky().size();o++)									// vsetky nasledky
 			{
 				
-				if (testtt&& poc==168)
-				{System.out.println("");}
+		
 				
-				poc++;
-				test[o]= true;
+		
+				test[o]= true;  //predbezne
 
-				if (n.getNasledky().get(o).getZ_slov().get(0).equals("pridaj"))
+				if (n.getNasledky().get(o).getZ_slov().get(0).equals("pridaj"))       // ak je pravidlo pridaj 
 				{
 					n.getNasledky().get(o).setTyp(1);
 					boolean tempdlzka=true;
 
-					String text="";
+					String text="";																	// vytvorenie 1 stringu z pravidla
 					for (int i=1;i<n.getNasledky().get(o).getZ_slov().size();i++)
 					{
 						String slovo =n.getNasledky().get(o).getZ_slov().get(i);
@@ -98,7 +95,7 @@ public class Main {
 					}
 
 					
-					for (int i=0;i<fakty.size();i++)  //kazdy fakt
+					for (int i=0;i<fakty.size();i++)  //kazdy fakt 				          // vytvorrenie 1 stringu Z FAKTU pre dalsiu kontrolu	
 					{
 						boolean tempdlzkafakt=true;
 						String textfakt="";
@@ -115,7 +112,7 @@ public class Main {
 							}
 						}
 					//	System.out.println(text+" aaaaa "+textfakt);
-						if (Objects.equals(text, textfakt))
+						if (Objects.equals(text, textfakt))												//kontrola ci sa zhoduju
 						{
 							
 							test[o] = false;
@@ -123,7 +120,7 @@ public class Main {
 					}
 					
 				}
-				else if (n.getNasledky().get(o).getZ_slov().get(0).equals("sprava"))
+				else if (n.getNasledky().get(o).getZ_slov().get(0).equals("sprava"))					// cisto sprava
 				{
 					n.getNasledky().get(o).setTyp(0);
 					test[o]=false;
@@ -137,7 +134,7 @@ public class Main {
 
 
 			}
-			boolean temp = false; 
+			boolean temp = false; 								// overenie ci je pouzitelna podmienka ak ano tak da ju do monostireal
 			for (int i=0;i<test.length;i++)
 			{
 				if (test[i])
@@ -156,7 +153,7 @@ public class Main {
 		System.out.println("\nFAKTY pred zmenov");
 		vypis_fakty();
 		vypis_pravidla();
-		vykonaj();
+		vykonaj();													// vykonaj konkretne pravidlo
 		vypis_vypisu();
 		System.out.println("\nFAKTY po zmene");
 		vypis_fakty();
@@ -215,7 +212,7 @@ public class Main {
 
 	public static void vykonaj()
 	{ 
-		for (Pravidlo n: moznostireal)  // vsetky pravidla
+		for (Pravidlo n: moznostireal)  // vsetky pravidla     // hlada 1 moznost kde moze nieco zmenit
 		{
 			for (int i=0; i< n.getNasledky().size();i++)  // vsetky nasledky
 			{
@@ -228,7 +225,7 @@ public class Main {
 		}
 	}
 
-	public static void  aplikuj_pravidlo(Pravidlo p)
+	public static void  aplikuj_pravidlo(Pravidlo p)        // alikuj klonkretne pravidlo
 	{
 		System.out.println("\n\npouzije sa: "+p.getNazov());
 
@@ -241,7 +238,7 @@ public class Main {
 					boolean tempdlzka=true;
 					String text="";
 
-					for (int l=1;l< p.getNasledky().get(i).getZ_slov().size();l++)// prejdi vsetky slova
+					for (int l=1;l< p.getNasledky().get(i).getZ_slov().size();l++)// prejdi vsetky slova							// urob 1 string
 					{
 						String slovo =p.getNasledky().get(i).getZ_slov().get(l);
 						if (slovo.charAt(0)=='?')
@@ -265,9 +262,9 @@ public class Main {
 
 
 
-					System.out.println(text);
+					System.out.println(text);	
 					text=text+")";
-					Veta temp= Main.parcuj(text).get(0);
+					Veta temp= Main.parcuj(text).get(0);																// vvloz ho do vety a do faktu 
 					fakty.add(temp);
 				}
 				else if (p.getNasledky().get(i).getZ_slov().get(0).equals("sprava")) 
@@ -275,7 +272,7 @@ public class Main {
 					boolean tempdlzka=true;
 					String text="";
 
-					for (int l=1;l< p.getNasledky().get(i).getZ_slov().size();l++)// prejdi vsetky slova
+					for (int l=1;l< p.getNasledky().get(i).getZ_slov().size();l++)// prejdi vsetky slova				1 string obdoba
 					{
 						String slovo =p.getNasledky().get(i).getZ_slov().get(l);
 						if (slovo.charAt(0)=='?')
@@ -295,7 +292,7 @@ public class Main {
 						}
 
 					}
-					//	p.getNasledky().get(i).getZ_slov().remove(0);
+			
 
 
 
@@ -310,58 +307,8 @@ public class Main {
 		}
 		System.out.println("\n");
 	}
-	public void vykonaj_nasledok()
-	{
-
-	}
-
-	public static boolean je_rovnake(Pravidlo p,int podmienka)
-	{
-		Pravidlo p_nove=null;
-		for (int i=0;i<fakty.size();i++)  //kazdy fakt
-		{
-			if (fakty.get(i).getZ_slov().size()==p.getPodmienky().get(podmienka).getZ_slov().size()); // ak fakt a podmienka ma rovnaku dlzku slov
-			{
-				Veta temp = p.getPodmienky().get(podmienka); 
-				// kotrola zhody 
-				if (kontrola(fakty.get(i),temp))    // kontrola ci ozaj su rovnake 
-				{	
-					p_nove = new Pravidlo(p);
-
-					for (int param=0;param< temp.getParam().size();param++) /// kazdy parameter z vety
-					{
-						char pis_par = temp.getZ_slov().get(temp.getParam().get(param)).charAt(1);
-
-
-						if (p_nove.getHm().get(pis_par).toString().equals(""))   			/// ak premmena nieje nastavena
-						{
-							p_nove.getHm().replace(pis_par, fakty.get(i).getZ_slov().get(param));
-						}
-						else  // ak premenna je nastavena ovej ci je spravne 
-						{
-							if (p_nove.getHm().get(pis_par)!= fakty.get(i).getZ_slov().get(param))
-							{ return false;}
-
-						}
-					}
-				}
-				if (podmienka+1 == p.getPodmienky().size())
-				{
-					moznosti.add(p_nove);
-					return true;
-				}
-				else
-				{
-					je_rovnake(p_nove,podmienka+1);
-				}
-			}
-
-		}
-
-
-		return true;
-
-	}
+	
+	
 	public static boolean kontrola(Veta fakt,Veta pravidlo) // ci pravidlo a fakt su zhodne // daju sa napasovat
 	{
 		boolean test = true;

@@ -34,7 +34,7 @@ public class Pravidlo {
 
 
 
-	public void zistiparam()
+	public void zistiparam()   // napln hash mapu parametrami inicializuj
 	{
 		for (int i = 0;i<podmienky.size();i++)     // kazda podmienka
 		{
@@ -55,10 +55,10 @@ public class Pravidlo {
 		}
 	}
 
-	public boolean je_rovnake(Pravidlo p,int podmienka)
+	public boolean je_rovnake(Pravidlo p,int podmienka)   // skus naparsovat podminky na pravidlo konkretne 
 	{
 		Pravidlo p_nove=null;
-	
+
 
 		for (int i=0;i<Main.fakty.size();i++)  //kazdy fakt
 		{
@@ -68,13 +68,13 @@ public class Pravidlo {
 				Veta temp = p.getPodmienky().get(podmienka); 
 				// kotrola zhody 
 				p_nove = new Pravidlo(p);
-				if (temp.getZ_slov().get(0).equals("<>"))
+				if (temp.getZ_slov().get(0).equals("<>"))				//	specialny pripad
 				{
 
 
 
 
-					for (int param=0;param< temp.getParam().size()-1;param++) /// kazdy parameter z vety
+					for (int param=0;param< temp.getParam().size()-1;param++) /// kazdy parameter z vety						///overenie ci kazdy parameter je iny 
 					{
 						char pis_par = temp.getZ_slov().get(temp.getParam().get(param)).charAt(1);
 						for (int paramcomper=param+1;paramcomper< temp.getParam().size();paramcomper++)
@@ -86,18 +86,18 @@ public class Pravidlo {
 					}
 					if (test == true )
 					{
-						if (podmienka+1 == p.getPodmienky().size())
+						if (podmienka+1 == p.getPodmienky().size())      
 						{
-							Main.moznosti.add(p_nove);
-							
+							Main.moznosti.add(p_nove);				// pridanie do moznosti 
+							return true;
 						}
 						else
 						{
-							je_rovnake(p_nove,podmienka+1);
+							je_rovnake(p_nove,podmienka+1);  
 						}
 					}
 				}
-				else if (Main.kontrola(Main.fakty.get(i),temp))    // kontrola ci ozaj su rovnake 
+				else if (Main.kontrola(Main.fakty.get(i),temp))    // kontrola ci ozaj su rovnake   // ak sa jedna o naviazanie faktu 
 				{	
 
 
@@ -113,7 +113,7 @@ public class Pravidlo {
 						{
 							p_nove.getHm().replace(pis_par, Main.fakty.get(i).getZ_slov().get(temp.getParam().get(param)));
 						}
-						else  // ak premenna je nastavena ovej ci je spravne 
+						else  															// ak premenna je nastavena ovej ci je spravne 
 						{
 							if (Objects.equals(p_nove.getHm().get(pis_par), Main.fakty.get(i).getZ_slov().get(temp.getParam().get(param)))== false)
 							{ 
@@ -128,6 +128,7 @@ public class Pravidlo {
 						if (podmienka+1 == p.getPodmienky().size())
 						{
 							Main.moznosti.add(p_nove);
+							
 							
 						}
 						else
